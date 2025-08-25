@@ -47,7 +47,7 @@
 - [x] **README.md**：本ファイル。上記のディレクトリおよびファイルの説明書。
 
 <details>
-    <summary><span style="background-color: #20B2AA; ">ディレクトリ構成（クリックで折りたたみを展開）</span></summary>
+    <summary><span style="background-color: #20B2AA; "><b>ディレクトリ構成（クリックで折りたたみを展開）</b></span></summary>
 
     .
     ├── 230918
