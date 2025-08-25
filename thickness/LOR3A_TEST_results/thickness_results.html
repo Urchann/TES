@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+   <meta charset='UTF-8'>
+   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+   <title>Roughness Analysis Results</title>
+   <style>
+      body { font-family: 'Times New Roman', Times, serif; margin: 20px; line-height: 1.6; }
+      h1 { font-size: 2rem; color: #333; }
+      h2 { font-size: 1.5rem; color: #333; }
+      h3 { font-size: 1rem; color: #333; }
+      table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+      th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+      th { background-color: #f2f2f2; text-align: center; }
+      th:first-child { text-align: left; }
+      td { text-align: right; }
+      td:first-child { text-align: left; }
+      .plot-section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+      .plot-section img { max-width: 50%; height: auto; display: block; margin: auto; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+      .plot-section a { display: inline-block; }
+      .plot-section .plot-container { text-align: center; }
+      .correlation-grid-container { overflow-x: auto; }
+      .correlation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-items: center; align-items: center; }
+      .correlation-grid img { max-width: 80%; height: auto; }
+      .summary-box { border: 1px solid #ccc; padding: 15px; margin: 15px 0; background-color: #f9f9f9; border-radius: 5px; }
+      .summary-item { margin-bottom: 10px; }
+      .summary-table-container { overflow-x: auto; }
+      .summary-table thead th { background-color: #e6e6e6; border: 1px solid #b0b0b0; text-align: center; }
+      .summary-table tbody td { border: 1px solid #b0b0b0; text-align: center; white-space: nowrap; }
+      .footer { text-align: center; margin-top: 50px; font-size: 0.8em; color: #777; }
+      hr { border: none; height: 1px; background-color: #ccc; margin: 20px 0; }
+   </style>
+   <script src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>
+</head>
+<body>
+   <h1>Roughness Analysis Results for LOR3A_TEST</h1>
+   <p><strong>Author:</strong> Ryota Fukuda</p>
+   <p>　理研CRの表面粗さ計（触針型）による測定データから，試料の厚みを計算する。
+      <br>　粗さデータセットの波形は矩形波上になっており，本解析では，その矩形波の凸の上昇部分を「立ち上がり」，下降部分を「立ち下がり」と呼ぶ。この立ち上がりと立ち下がりの波高値をそれぞれ計算することにより，試料の厚みを評価する。
+      <br>　波高値の計算方法は，まず素データをスムージングした後，隣り合うデータ点の差を取り，その最大値と最小値をそれぞれ立ち上がり点および立ち下がり点と決定する。次に，立ち上がり点からデータ始点，立ち下がり点からデータ終点までについてスキャンし，それぞれデータ点が増加する点を立ち上がり始点と立ち下がり始点とする。さらに，立ち上がり点から立ち下がり点，立ち下がり点から立ち上がり点までについてスキャンし，それぞれデータ点が減少する点を立ち上がり終点と立ち下がり終点とする。最後に，立ち上がりおよび立ち下がりの始点と終点の差を計算することで，試料の厚みをそれぞれ評価する。
+   </p>
+   <div class='plot-section'>
+      <h2>Thickness Results</h2>
+      <div class='summary-box'>
+         <h3>Correlation Plot</h3>
+         <p>　基板ごとに，測定位置による相関をプロットする。以下，上の図は基板の測定位置（Ea番号）の詳細。相関を見る位置は，(Ea1, Ea3, Ea5) と (Ea2, Ea3, Ea4) の2つとし，以下の下の図にまとめる。
+            <br>　誤差は，各データについて，Measurement Indexにおける0から立ち上がり始めまでのデータ点から，不偏標準偏差で計算する。
+         </p>
+         <div class='plot-container'>
+            <a href='./BoardSchematic.png' target='_blank'><img src='./BoardSchematic.png' alt='Measurement position on the board'></a>
+         </div>
+         <div class='correlation-grid'>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test1_Ea1-3-5.png' target='_blank'><img src='./thickness_correlation_test1_Ea1-3-5.png' alt='Correlation of thickness for test1_Ea1-3-5'></a>
+               <p>test1 Ea1-3-5</p>
+            </div>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test1_Ea2-3-4.png' target='_blank'><img src='./thickness_correlation_test1_Ea2-3-4.png' alt='Correlation of thickness for test1_Ea2-3-4'></a>
+               <p>test1 Ea2-3-4</p>
+            </div>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test2_Ea1-3-5.png' target='_blank'><img src='./thickness_correlation_test2_Ea1-3-5.png' alt='Correlation of thickness for test2_Ea1-3-5'></a>
+               <p>test2 Ea1-3-5</p>
+            </div>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test2_Ea2-3-4.png' target='_blank'><img src='./thickness_correlation_test2_Ea2-3-4.png' alt='Correlation of thickness for test2_Ea2-3-4'></a>
+               <p>test2 Ea2-3-4</p>
+            </div>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test3_Ea1-3-5.png' target='_blank'><img src='./thickness_correlation_test3_Ea1-3-5.png' alt='Correlation of thickness for test3_Ea1-3-5'></a>
+               <p>test3 Ea1-3-5</p>
+            </div>
+            <div class='plot-container'>
+               <a href='./thickness_correlation_test3_Ea2-3-4.png' target='_blank'><img src='./thickness_correlation_test3_Ea2-3-4.png' alt='Correlation of thickness for test3_Ea2-3-4'></a>
+               <p>test3 Ea2-3-4</p>
+            </div>
+         </div>
+         <h3>Average Thickness Table</h3>
+         <p>　各基板の位置ごとに，立ち上がり時間と立ち下がり時間による膜厚値の結果（平均値）を表にまとめる。<br>　誤差は，平均値の不偏標準偏差で計算する。</p>
+         <div class='summary-table-container'>
+            <table class='summary-table' style='width: 100%; border-collapse: collapse; margin-top: 20px;'>
+               <thead>
+                  <tr>
+                     <th rowspan='2'></th>
+                     <th colspan='5'>test1</th>
+                     <th colspan='5'>test2</th>
+                     <th colspan='5'>test3</th>
+                  </tr>
+                  <tr>
+                     <th>Ea1</th>
+                     <th>Ea2</th>
+                     <th>Ea3</th>
+                     <th>Ea4</th>
+                     <th>Ea5</th>
+                     <th>Ea1</th>
+                     <th>Ea2</th>
+                     <th>Ea3</th>
+                     <th>Ea4</th>
+                     <th>Ea5</th>
+                     <th>Ea1</th>
+                     <th>Ea2</th>
+                     <th>Ea3</th>
+                     <th>Ea4</th>
+                     <th>Ea5</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th style='background-color: #e6e6e6; border: 1px solid #b0b0b0;'>Rise</th>
+                     <td>525.52 \(\pm\) 8.23</td>
+                     <td>504.17 \(\pm\) 0.37</td>
+                     <td>496.93 \(\pm\) 6.16</td>
+                     <td>514.97 \(\pm\) 6.36</td>
+                     <td>503.28 \(\pm\) 1.26</td>
+                     <td>522.02 \(\pm\) 6.89</td>
+                     <td>511.41 \(\pm\) 11.10</td>
+                     <td>518.32 \(\pm\) 6.04</td>
+                     <td>524.69 \(\pm\) 6.81</td>
+                     <td>515.22 \(\pm\) 2.23</td>
+                     <td>497.80 \(\pm\) 12.44</td>
+                     <td>480.56 \(\pm\) 1.19</td>
+                     <td>495.44 \(\pm\) 13.80</td>
+                     <td>490.20 \(\pm\) 24.86</td>
+                     <td>496.55 \(\pm\) 4.98</td>
+                  </tr>
+                  <tr>
+                     <th style='background-color: #e6e6e6; border: 1px solid #b0b0b0;'>Fall</th>
+                     <td>510.50 \(\pm\) 2.76</td>
+                     <td>526.81 \(\pm\) 0.37</td>
+                     <td>560.89 \(\pm\) 22.20</td>
+                     <td>542.04 \(\pm\) 5.28</td>
+                     <td>524.14 \(\pm\) 17.85</td>
+                     <td>523.59 \(\pm\) 7.49</td>
+                     <td>513.54 \(\pm\) 2.57</td>
+                     <td>535.74 \(\pm\) 10.92</td>
+                     <td>534.00 \(\pm\) 12.34</td>
+                     <td>514.96 \(\pm\) 6.72</td>
+                     <td>482.37 \(\pm\) 21.67</td>
+                     <td>466.33 \(\pm\) 6.54</td>
+                     <td>467.82 \(\pm\) 15.73</td>
+                     <td>477.21 \(\pm\) 23.48</td>
+                     <td>477.34 \(\pm\) 21.24</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+   <br>
+   <div class='plot-section'>
+      <h2>Thickness Results Table</h2>
+      <p>　全測定データにおける膜厚値の表にまとめる。<br>　1列目から順に，データファイル名，立ち上がり始めの点，立ち上がり終わりの点，立ち上がりの膜厚値，立ち下がり始めの点，立ち下がり終わりの点，立ち下がりの膜厚値である。</p>
+      <table>
+         <thead>
+            <tr><th>File Name</th><th>Pre-Rise Value (Å)</th><th>Post-Rise Value (Å)</th><th>Rise Height (Å)</th><th>Pre-Fall Value (Å)</th><th>Post-Fall Value (Å)</th><th>Fall Height (Å)</th></tr>
+         </thead>
+         <tbody>
+            <tr><td>LOR3A_test1_250526_LtoR_Ea1_1.txt</td><td>1.23</td><td>510.99</td><td>509.77</td><td>805.17</td><td>300.09</td><td>505.08</td></tr>
+            <tr><td>LOR3A_test1_250526_LtoR_Ea3_1.txt</td><td>20.86</td><td>527.23</td><td>506.37</td><td>1060.57</td><td>482.16</td><td>578.42</td></tr>
+            <tr><td>LOR3A_test1_250526_LtoR_Ea3_2.txt</td><td>30.36</td><td>529.43</td><td>499.07</td><td>809.80</td><td>292.99</td><td>516.80</td></tr>
+            <tr><td>LOR3A_test1_250526_LtoR_Ea4_1.txt</td><td>11.35</td><td>537.74</td><td>526.39</td><td>967.17</td><td>427.15</td><td>540.02</td></tr>
+            <tr><td>LOR3A_test1_250526_LtoR_Ea5_1.txt</td><td>-54.46</td><td>450.08</td><td>504.54</td><td>640.59</td><td>98.60</td><td>541.99</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea1_1.txt</td><td>-8.11</td><td>521.10</td><td>529.21</td><td>515.50</td><td>1.42</td><td>514.08</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea1_2.txt</td><td>5.40</td><td>542.96</td><td>537.56</td><td>745.09</td><td>232.75</td><td>512.34</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea2_1.txt</td><td>-4.71</td><td>499.46</td><td>504.17</td><td>838.00</td><td>311.19</td><td>526.81</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea3_1.txt</td><td>13.87</td><td>499.24</td><td>485.37</td><td>845.68</td><td>258.24</td><td>587.44</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea4_1.txt</td><td>-9.05</td><td>505.07</td><td>514.12</td><td>766.10</td><td>214.09</td><td>552.01</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea4_2.txt</td><td>-7.97</td><td>496.44</td><td>504.41</td><td>739.43</td><td>205.36</td><td>534.07</td></tr>
+            <tr><td>LOR3A_test1_250526_RtoL_Ea5_1.txt</td><td>-26.66</td><td>475.36</td><td>502.02</td><td>783.02</td><td>276.73</td><td>506.29</td></tr>
+            <tr><td>LOR3A_test1_250526_test.txt</td><td>36.25</td><td>533.44</td><td>497.19</td><td>524.52</td><td>48.71</td><td>475.80</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea1_1.txt</td><td>8.32</td><td>547.00</td><td>538.67</td><td>638.16</td><td>124.61</td><td>513.55</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea1_2.txt</td><td>-4.41</td><td>499.14</td><td>503.56</td><td>504.44</td><td>-22.39</td><td>526.83</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea2_1.txt</td><td>20.21</td><td>520.52</td><td>500.31</td><td>519.61</td><td>3.49</td><td>516.11</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea3_1.txt</td><td>5.86</td><td>533.41</td><td>527.55</td><td>545.71</td><td>-16.85</td><td>562.56</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea3_2.txt</td><td>10.40</td><td>510.98</td><td>500.58</td><td>528.07</td><td>-2.88</td><td>530.95</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea3_3.txt</td><td>17.73</td><td>525.38</td><td>507.65</td><td>534.04</td><td>0.91</td><td>533.13</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea4_1.txt</td><td>-2.94</td><td>511.66</td><td>514.60</td><td>619.40</td><td>60.83</td><td>558.57</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea4_2.txt</td><td>-24.05</td><td>513.60</td><td>537.65</td><td>521.78</td><td>2.08</td><td>519.70</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea5_1.txt</td><td>-25.36</td><td>492.68</td><td>518.03</td><td>498.48</td><td>-11.28</td><td>509.76</td></tr>
+            <tr><td>LOR3A_test2_250526_LtoR_Ea5_2.txt</td><td>11.75</td><td>522.56</td><td>510.81</td><td>501.51</td><td>-5.32</td><td>506.83</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea1_1.txt</td><td>-13.66</td><td>497.13</td><td>510.79</td><td>562.00</td><td>10.83</td><td>551.17</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea1_2.txt</td><td>-2.47</td><td>518.36</td><td>520.82</td><td>536.04</td><td>27.04</td><td>509.00</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea1_3.txt</td><td>-12.38</td><td>523.88</td><td>536.25</td><td>553.72</td><td>36.34</td><td>517.38</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea2_1.txt</td><td>18.24</td><td>540.76</td><td>522.51</td><td>532.89</td><td>21.92</td><td>510.98</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea3_1.txt</td><td>-21.99</td><td>509.97</td><td>531.96</td><td>703.12</td><td>150.18</td><td>552.94</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea3_2.txt</td><td>17.78</td><td>541.63</td><td>523.85</td><td>511.61</td><td>12.49</td><td>499.12</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea4_1.txt</td><td>10.95</td><td>532.76</td><td>521.81</td><td>523.16</td><td>-0.58</td><td>523.74</td></tr>
+            <tr><td>LOR3A_test2_250526_RtoL_Ea5_1.txt</td><td>-11.97</td><td>504.84</td><td>516.80</td><td>506.98</td><td>-21.31</td><td>528.29</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea1_1.txt</td><td>-1.55</td><td>483.81</td><td>485.36</td><td>507.71</td><td>47.01</td><td>460.70</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea2_1.txt</td><td>-7.47</td><td>470.89</td><td>478.36</td><td>508.23</td><td>47.37</td><td>460.86</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea2_2.txt</td><td>-7.53</td><td>473.35</td><td>480.88</td><td>500.68</td><td>41.90</td><td>458.79</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea3_1.txt</td><td>0.91</td><td>519.97</td><td>519.06</td><td>466.32</td><td>19.15</td><td>447.16</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea3_2.txt</td><td>-20.02</td><td>479.29</td><td>499.32</td><td>488.17</td><td>17.56</td><td>470.61</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea4_1.txt</td><td>-14.19</td><td>451.16</td><td>465.35</td><td>463.50</td><td>9.77</td><td>453.73</td></tr>
+            <tr><td>LOR3A_test3_250526_LtoR_Ea5_1.txt</td><td>-20.46</td><td>481.07</td><td>501.53</td><td>486.75</td><td>30.65</td><td>456.10</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea1_1.txt</td><td>0.98</td><td>511.22</td><td>510.24</td><td>500.51</td><td>-3.53</td><td>504.04</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea2_1.txt</td><td>12.21</td><td>494.64</td><td>482.43</td><td>489.63</td><td>10.28</td><td>479.35</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea3_1.txt</td><td>15.77</td><td>523.27</td><td>507.50</td><td>540.78</td><td>29.59</td><td>511.20</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea3_2.txt</td><td>13.01</td><td>468.89</td><td>455.88</td><td>495.41</td><td>53.11</td><td>442.30</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea4_1.txt</td><td>-18.71</td><td>496.35</td><td>515.06</td><td>525.65</td><td>24.97</td><td>500.69</td></tr>
+            <tr><td>LOR3A_test3_250526_RtoL_Ea5_1.txt</td><td>-26.76</td><td>464.80</td><td>491.56</td><td>495.34</td><td>-3.25</td><td>498.59</td></tr>
+         </tbody>
+      </table>
+   </div>
+   <br><br><br>
+   <div class='plot-section'>
+      <h2>Correlation Results</h2>
+      <p>　基板ごとに，立ち上がりと立ち下がりによる膜厚値の全計算結果をまとめてプロットする。
+         <br>　横軸は測定点で，縦軸が膜厚値である。また，赤色の誤差付きマーカーは立ち上がりの膜厚値，青色の誤差付きマーカーは立ち下がりの膜厚値を表す。
+         <br>　誤差は，各データについて，Measurement Indexにおける0から立ち上がり始めまでのデータ点から，不偏標準偏差で計算する。
+      </p>
+      <h3>test1 Correlation</h3>
+      <div class='plot-container'>
+         <a href='./thickness_correlation_test1.png' target='_blank'><img src='./thickness_correlation_test1.png' alt='Correlation of thickness for test1'></a>
+      </div>
+      <hr>
+      <h3>test2 Correlation</h3>
+      <div class='plot-container'>
+         <a href='./thickness_correlation_test2.png' target='_blank'><img src='./thickness_correlation_test2.png' alt='Correlation of thickness for test2'></a>
+      </div>
+      <hr>
+      <h3>test3 Correlation</h3>
+      <div class='plot-container'>
+         <a href='./thickness_correlation_test3.png' target='_blank'><img src='./thickness_correlation_test3.png' alt='Correlation of thickness for test3'></a>
+      </div>
+   </div>
+   <div class='plot-section'>
+      <h2>Each Plot</h2>
+      <p>　全測定データを各々プロットする。
+         <br>　横軸は測定位置のインデックスで，縦軸が膜厚値である。青色のラインは素データ，橙色のラインはuniform_filter1dを用いてスムージングしたデータを表す。また，緑色のマーカーは立ち上がり始めの点，赤色のマーカーは立ち上がり終わりの点，シアン色のマーカーは立ち下がりは始めの点，マゼンタ色のマーカーは立ち下がり終わりの点を表す。
+      </p>
+      <h3>LOR3A_test1_250526_LtoR_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_LtoR_Ea1_1.png' target='_blank'><img src='./LOR3A_test1_250526_LtoR_Ea1_1.png' alt='Roughness Plot for LOR3A_test1_250526_LtoR_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_LtoR_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_LtoR_Ea3_1.png' target='_blank'><img src='./LOR3A_test1_250526_LtoR_Ea3_1.png' alt='Roughness Plot for LOR3A_test1_250526_LtoR_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_LtoR_Ea3_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_LtoR_Ea3_2.png' target='_blank'><img src='./LOR3A_test1_250526_LtoR_Ea3_2.png' alt='Roughness Plot for LOR3A_test1_250526_LtoR_Ea3_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_LtoR_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_LtoR_Ea4_1.png' target='_blank'><img src='./LOR3A_test1_250526_LtoR_Ea4_1.png' alt='Roughness Plot for LOR3A_test1_250526_LtoR_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_LtoR_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_LtoR_Ea5_1.png' target='_blank'><img src='./LOR3A_test1_250526_LtoR_Ea5_1.png' alt='Roughness Plot for LOR3A_test1_250526_LtoR_Ea5_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea1_1.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea1_1.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea1_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea1_2.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea1_2.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea1_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea2_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea2_1.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea2_1.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea2_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea3_1.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea3_1.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea4_1.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea4_1.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea4_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea4_2.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea4_2.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea4_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_RtoL_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_RtoL_Ea5_1.png' target='_blank'><img src='./LOR3A_test1_250526_RtoL_Ea5_1.png' alt='Roughness Plot for LOR3A_test1_250526_RtoL_Ea5_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test1_250526_test.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test1_250526_test.png' target='_blank'><img src='./LOR3A_test1_250526_test.png' alt='Roughness Plot for LOR3A_test1_250526_test.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea1_1.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea1_1.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea1_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea1_2.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea1_2.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea1_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea2_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea2_1.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea2_1.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea2_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea3_1.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea3_1.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea3_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea3_2.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea3_2.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea3_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea3_3.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea3_3.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea3_3.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea3_3.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea4_1.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea4_1.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea4_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea4_2.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea4_2.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea4_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea5_1.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea5_1.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea5_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_LtoR_Ea5_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_LtoR_Ea5_2.png' target='_blank'><img src='./LOR3A_test2_250526_LtoR_Ea5_2.png' alt='Roughness Plot for LOR3A_test2_250526_LtoR_Ea5_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea1_1.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea1_1.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea1_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea1_2.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea1_2.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea1_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea1_3.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea1_3.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea1_3.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea1_3.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea2_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea2_1.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea2_1.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea2_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea3_1.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea3_1.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea3_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea3_2.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea3_2.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea3_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea4_1.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea4_1.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test2_250526_RtoL_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test2_250526_RtoL_Ea5_1.png' target='_blank'><img src='./LOR3A_test2_250526_RtoL_Ea5_1.png' alt='Roughness Plot for LOR3A_test2_250526_RtoL_Ea5_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea1_1.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea1_1.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea2_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea2_1.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea2_1.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea2_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea2_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea2_2.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea2_2.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea2_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea3_1.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea3_1.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea3_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea3_2.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea3_2.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea3_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea4_1.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea4_1.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_LtoR_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_LtoR_Ea5_1.png' target='_blank'><img src='./LOR3A_test3_250526_LtoR_Ea5_1.png' alt='Roughness Plot for LOR3A_test3_250526_LtoR_Ea5_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea1_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea1_1.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea1_1.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea1_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea2_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea2_1.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea2_1.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea2_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea3_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea3_1.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea3_1.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea3_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea3_2.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea3_2.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea3_2.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea3_2.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea4_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea4_1.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea4_1.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea4_1.txt'></a>
+      </div>
+      <hr>
+      <h3>LOR3A_test3_250526_RtoL_Ea5_1.txt</h3>
+      <div class='plot-container'>
+         <a href='./LOR3A_test3_250526_RtoL_Ea5_1.png' target='_blank'><img src='./LOR3A_test3_250526_RtoL_Ea5_1.png' alt='Roughness Plot for LOR3A_test3_250526_RtoL_Ea5_1.txt'></a>
+      </div>
+   </div>
+</body>
+</html>
