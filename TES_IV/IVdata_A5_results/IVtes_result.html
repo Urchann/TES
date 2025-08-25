@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>TES IV Curve Analysis Results</title>
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+        .section img { max-width: 90%; height: auto; display: block; margin: 20px auto; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .footer { text-align: center; margin-top: 50px; font-size: 0.8em; color: #777; }
+        .parameter-box {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .parameter-box h3 { margin-top: 0; }
+        .parameter-box p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>TES IV Curve Analysis Report</h1>
+    <p><strong>Author:</strong> Ryota Fukuda</p>
+    <div class='section'>
+        <h2>Overall Fitting Parameters</h2>
+        <div class='parameter-box'>
+            <p><strong>Tc (TES Temperature):</strong> 0.158 K</p>
+            <p><strong>G0 (Thermal Conductivity at 1K):</strong> 1.384 nW/K</p>
+            <p><strong>n (Power Constant):</strong> 1.49</p>
+            <p><strong>Chi-squared (Minimum):</strong> 31.29</p>
+        </div>
+    </div>
+    <div class='section'>
+        <h2>Global Plots</h2>
+        <h3>IVtes IVproperty</h3>
+        <img src='./IVtes_IVproperty.png' alt='IVtes_IVproperty.png'>
+        <p>View plot in new tab: <a href='./IVtes_IVproperty.png' target='_blank'>IVtes_IVproperty.png</a></p>
+        <h3>IVtes PRproperty</h3>
+        <img src='./IVtes_PRproperty.png' alt='IVtes_PRproperty.png'>
+        <p>View plot in new tab: <a href='./IVtes_PRproperty.png' target='_blank'>IVtes_PRproperty.png</a></p>
+        <h3>IVtes fitting</h3>
+        <img src='./IVtes_fitting.png' alt='IVtes_fitting.png'>
+        <p>View plot in new tab: <a href='./IVtes_fitting.png' target='_blank'>IVtes_fitting.png</a></p>
+        <h3>IVtes RTproperty</h3>
+        <img src='./IVtes_RTproperty.png' alt='IVtes_RTproperty.png'>
+        <p>View plot in new tab: <a href='./IVtes_RTproperty.png' target='_blank'>IVtes_RTproperty.png</a></p>
+        <h3>IVtes GTproperty</h3>
+        <img src='./IVtes_GTproperty.png' alt='IVtes_GTproperty.png'>
+        <p>View plot in new tab: <a href='./IVtes_GTproperty.png' target='_blank'>IVtes_GTproperty.png</a></p>
+        <h3>IVtes alpha</h3>
+        <img src='./IVtes_alpha.png' alt='IVtes_alpha.png'>
+        <p>View plot in new tab: <a href='./IVtes_alpha.png' target='_blank'>IVtes_alpha.png</a></p>
+        <h3>IVtes contour</h3>
+        <img src='./IVtes_contour.png' alt='IVtes_contour.png'>
+        <p>View plot in new tab: <a href='./IVtes_contour.png' target='_blank'>IVtes_contour.png</a></p>
+    </div>
+    <div class='footer'>
+        <p>&copy; 2025 Ryota Fukuda. All rights reserved.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>TES IV Curve Analysis Results</title>
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; margin: 20px; line-height: 1.6; }
+        h1 { font-size: 2.5rem; color: #333; }
+        h2 { font-size: 2rem; color: #333; }
+        h3 { font-size: 1.5rem; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+        .section img { max-width: 50%; height: auto; display: block; margin: auto; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .section a { display: inline-block; }
+        .section .plot-container { text-align: center; }
+        .footer { text-align: center; margin-top: 50px; font-size: 0.8em; color: #777; }
+        .parameter-box {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .parameter-box h3 { margin-top: 0; }
+        .parameter-box p { margin: 5px 0; }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+            margin: 20px 0;
+        }
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>
+    <link rel='stylesheet' href='css/smart-style.css'>
+    <link rel='stylesheet' href='css/pc-style.css' media='screen and (min-width: 768px)'>
+</head>
+<body>
+    <h1>TES IV Curve Analysis Results for 230918</h1>
+    <p><strong>Author:</strong> Ryota Fukuda</p>
+            <p>　本解析では，TESの\(\, I-V\, \)測定で得られたデータから，TESカロリメータの諸パラメータを決定する。
+            <br>　測定では，バイアス電流\(\, I_{{\rm bias}}\, \)に対する出力電圧\(\, V_{{\rm out}}\, \)を調べる。これについて，まずは電流電圧変換係数\(\, \Xi\, \)を用いてTESの\(\, I-V\, \)特性を得る。
+            さらに，異なる熱浴温度\(\, T_{{\rm bath}}\, \)における\(\, I-V\, \)特性を求めることで，フィッティングにより熱伝導率\(\, G\, \)や温度依存性のべき定数\(\, n\, \)，TESの温度\(\, T_{{\rm TES}}\, \)が決定できる。
+            また，TESの\(\, R-T\, \)特性を調べることで転移温度\(\, T_{{\rm c}}\, \)がわかり，温度感度\(\, \alpha\, \)が計算できる。</p>    <div class='section'>
+        <h2>Fitting Results</h2>
+            <p>　フィッティング結果のパラメータをまとめる。</p>        <div class='parameter-box'>
+            <p><strong>Tc (TES Temperature):</strong> 307.595 mK</p>
+            <p><strong>G0 (Thermal Conductivity at 1K):</strong> 0.327 nW/K</p>
+            <p><strong>n (Power Constant):</strong> 2.01</p>
+            <p><strong>Chi-squared (Minimum):</strong> 824.09</p>
+        </div>
+    </div>
+    <div class='section'>
+        <h2>Result Plots</h2>
+        <h3>IVproperty</h3>
+            <p>　TESに流れる電流\(\, I_{\rm TES}\, \)とTESの両端にかかる電圧\(\, V_{\rm TES}\, \)の関係</p>
+            \[
+            V_{\rm TES} = \frac{V_{\rm TES}}{R_{\rm TES}}
+            \]
+            <p>をプロットする。\(R_{\rm TES}\, \)はTESの抵抗である。このとき，\(I_{\rm TES}\, \)は出力電圧\(\, V_{\rm out}\, \)と電流電圧変換係数\(\, \Xi\, \)を用いて</p>
+            \[
+            I_{\rm TES} \simeq \frac{1}{\Xi}V_{\rm out}
+            \]
+            <p>で求められる。\(\, \Xi\, \)は，SQUIDの入力コイル相互インダクタンス\(\, M_{\rm in}\, \)，フィードバックコイル相互インダクタンス\(\, M_{\rm FB}\, \)，フィードバック抵抗値\(\, R_{\rm FB}\, \)により</p>
+            \[
+            \Xi = \frac{M_{\rm in}}{M_{\rm FB}}R_{\rm FB}
+            \]
+            <p>で表される係数。また，\(R_{\rm TES}\, \)は測定バイアス電流\(\, I_{\rm bias}\, \)シャント抵抗\(\, R_{\rm sh}\, \)を用いて</p>
+            \[
+            R_{\rm TES} = \left(\frac{I_{\rm bias}}{I_{\rm TES}}-1\right)R_{\rm sh}
+            \]
+            <p>で書ける。<br>　左上図は各熱浴温度\(\, T_{\rm bath}\, \)に対する測定結果の\(\, V_{\rm out}\, \)と\(\, I_{\rm bias}\, \)の関係をプロットしたもので，右上図はそのグラフを超伝導転移端付近で拡大したものである。
+            また，左下図は各熱浴温度\(\, T_{\rm bath}\, \)に対する計算結果の\(\, V_{\rm TES}\, \)と\(\, I_{\rm TES}\, \)の関係をプロットしたもので，右下図はそのグラフを超伝導転移端付近で拡大したものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_IVproperty.png' target='_blank'><img src='./IVtes_IVproperty.png' alt='IVtes_IVproperty.png'></a>
+            </div>
+        <hr>
+        <h3>PRproperty</h3>
+            <p>　TESの抵抗\(\, R_{\rm TES }\, \)とTESのJoule発熱\(\, P_{\rm TES}\, \)の関係をプロットする。ここでの\(R_{\rm TES}\, \)は，正規化したTESの抵抗とする。
+            <br>　左図は\(\, R_{\rm TES }\, \)と\(\, P_{\rm TES}\, \)の関係をプロットしたもので，右図はそのグラフを超伝導転移端付近で拡大したものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_PRproperty.png' target='_blank'><img src='./IVtes_PRproperty.png' alt='IVtes_PRproperty.png'></a>
+            </div>
+        <hr>
+        <h3>fitting</h3>
+            <p>　TESのJoule発熱\(\, P_{\rm TES}\, \)と熱浴温度\(\, T_{\rm bath}\, \)の関係</p>
+            \[
+            P_{\rm TES} = \frac{G_0}{n}(T_{\rm TES}^n - T_{\rm bath}^n)
+            \]
+            <p>をフィッティングする。\(P_{\rm TES}\, \)は，PR特性グラフからTESの超伝導転移端の\(\, P_{\rm TES}\)（Joule発熱が一定の領域）を平均した代表値を使う。
+            フィッティングにより，TESの超伝導転移端\(\, T_{\rm c}\, \)，熱浴温度が\(\, 1\ {\rm K}\, \)のときの熱伝導度\(\, G_0\, \)，べき定数\(\, n\, \)のそれぞれの最適値が得られる。
+            <br>　図は\(\, P_{\rm TES}\, \)（誤差付き）と\(\, T_{\rm bath}\, \)の関係をプロットしたものと，そのフィッティング結果。\(\, P_{\rm TES}\, \)の誤差は不偏標準偏差で計算した。</p>
+            
+            <div class='plot-container'>
+                <a href='./IVtes_fitting.png' target='_blank'><img src='./IVtes_fitting.png' alt='IVtes_fitting.png'></a>
+            </div>
+        <hr>
+        <h3>RTproperty</h3>
+            <p>　TESの抵抗\(\, R_{\rm TES }\, \)とTESの温度\(\, T_{\rm TES}\, \)の関係をプロットする。\(T_{\rm TES}\, \)は，フィッティング関数を逆算して</p>
+            \[
+            T_{\rm TES} = \left(T_{\rm bath}^n + \frac{n\cdot P_{\rm TES}}{G_0}\right)^{1/n}
+            \]
+            <p>で計算できる。<br>　図は\(\, R_{\rm TES }\, \)と\(\, T_{\rm TES}\, \)の関係をプロットしたものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_RTproperty.png' target='_blank'><img src='./IVtes_RTproperty.png' alt='IVtes_RTproperty.png'></a>
+            </div>
+        <hr>
+        <h3>GTproperty</h3>
+            <p>　TESの熱伝導度\(\, G_{\rm TES }\, \)とTESの温度\(\, T_{\rm TES}\, \)の関係</p>
+            \[
+            G_{\rm TES} = G_0T_{\rm TES}^{n-1}
+            \]
+            </p>をプロットする。\(G_0\, \)と\(\, n\, \)は，フィッティング結果の値を用いる。
+            <br>　図は\(\, G_{\rm TES }\, \)と\(\, T_{\rm TES}\, \)の関係をプロットしたものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_GTproperty.png' target='_blank'><img src='./IVtes_GTproperty.png' alt='IVtes_GTproperty.png'></a>
+            </div>
+        <hr>
+        <h3>alpha</h3>
+            <p>　TESの感度\(\, \alpha\, \)</p>
+            \[
+            \alpha = \frac{T}{R}\frac{{\rm d}R}{{\rm d}T}
+            \]
+            </p>をプロットする。TESの温度とTESの抵抗はともに\(\, T_{\rm bath}=100\ {\rm mK}\, \)のときの値を用いた。
+            <br>　図は\(\, T_{\rm bath}=100\ {\rm mK}\, \)のときの\(\, \alpha\, \)と\(\, I_{\rm bias}\, \)の関係をプロットしたものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_alpha.png' target='_blank'><img src='./IVtes_alpha.png' alt='IVtes_alpha.png'></a>
+            </div>
+        <hr>
+        <h3>contour</h3>
+            <p>　フィッティングパラメータのコントアをプロットする。信頼範囲の定義として，自由度2のカイ二乗分布における累積確率の値からパーセント点を求める。
+            累積確率は\(\, 68.27\ \%,\ 90\ \%,\ 99\ \%\, \)の3点のP値を考えることとする。<br>　図は\(\, n,\ G_0,\ T_{\rm c}\, \)のそれぞれを2つのパラメータでコントアをプロットしたものである。</p>
+            <div class='plot-container'>
+                <a href='./IVtes_contour.png' target='_blank'><img src='./IVtes_contour.png' alt='IVtes_contour.png'></a>
+            </div>
+    </div>
+</body>
+</html>
