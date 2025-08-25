@@ -9,7 +9,7 @@
 <div id="abstract"></div>
 
 &emsp;本ディレクトリは，超伝導転移端センサ（Transition Edge Sensor; TES）の $I-V$ 測定から得られたデータを解析するためのものです。<br/>
-&emsp;このREADMEファイルにて，本ディレクトリの構成および使い方などを説明します。
+&emsp;このREADMEファイル [^1]にて，本ディレクトリの構成および使い方などを説明します。
 
 
 ## 目次
@@ -171,7 +171,7 @@
 ### 解析データ
 <div id="section2.1"></div>
 
-&emsp;解析データの名前は，すべて <span style="color: #FF0000; ">"IV_温度(整数)mK_測定年月日.txt"</span> のように付けてください（例：IV_100mK_20250825.txt）。その上で，同じ素子で $I-V$ 測定して得られた全データをまとめて任意の名前のディレクトリに格納してください。作成したディレクトリは，解析スクリプトと同じ階層に置いてください。ただし，ivana.ipynbを用いて解析するのであればその限りではありません [<sup>[1]</sup>](#footnote1) 。
+&emsp;解析データの名前は，すべて <span style="color: #FF0000; ">"IV_温度(整数)mK_測定年月日.txt"</span> のように付けてください（例：IV_100mK_20250825.txt）。その上で，同じ素子で $I-V$ 測定して得られた全データをまとめて任意の名前のディレクトリに格納してください。作成したディレクトリは，解析スクリプトと同じ階層に置いてください。ただし，ivana.ipynbを用いて解析するのであればその限りではありません [^2] 。
 
 > [!WARNING]
 > &emsp;拡張子がtxt形式でない場合，txt形式に変えるか解析ファイルを一部修正する必要があります。
@@ -188,7 +188,7 @@
 > &emsp;8ブロック目にあるSQUIDのパラメータは，JAXA120 Ea4 A5（IVdata_A5ディレクトリのデータ）用の値になっています。別の $I-V$ データを用いる際にはここの変更を忘れずに行ってください。
 
 #### ivana_re.ipynbファイル
-&emsp;ivana.ipynbファイルとは別に，ivana_re.ipynbファイルがあります。こちらは，Jupyter NotebookやVS Codeの環境で動かせるようにivana.ipynbファイルを微調整したファイルです。Google Colab環境が肌に合わない場合はこれを使ってください。同階層に解析データが格納されたディレクトリを置けば [<sup>[1]</sup>](#footnote1) ，あとはivana.ipynbファイルと同様に上から順にブロックを実行すれば使えます。また，**3ブロック目のglobと5ブロック目のSQUIDパラメータは，JAXA120 Sa4（230918ディレクトリのデータ）用になっています**。別のデータを使う際は修正を加えてください。
+&emsp;ivana.ipynbファイルとは別に，ivana_re.ipynbファイルがあります。こちらは，Jupyter NotebookやVS Codeの環境で動かせるようにivana.ipynbファイルを微調整したファイルです。Google Colab環境が肌に合わない場合はこれを使ってください。同階層に解析データが格納されたディレクトリを置けば，あとはivana.ipynbファイルと同様に上から順にブロックを実行すれば使えます。また，**3ブロック目のglobと5ブロック目のSQUIDパラメータは，JAXA120 Sa4（230918ディレクトリのデータ）用になっています**。別のデータを使う際は修正を加えてください。
 > [!IMPORTANT]
 > &emsp;ivana.ipynbファイルとivana_re.ipynbファイルのいずれもobsoleteです。いくつかコードに不備が含まれる可能性があるので，[Qiita](https://qiita.com/Urchan/private/58672d874ca034e2a7a5) またはIVtes.pyを参考にして，調整が必要な箇所があれば修正してください。
 
@@ -258,5 +258,5 @@ python IVtes.py [解析データが格納されたディレクトリ名]/*.txt
 <p align="right"><strong><a href="#top">トップへ»</a></strong></p>
 
 
----
-<span id="1" style="font-size: 80%; color: #708090; ">[1] ivana_re.ipynbを用いて解析する場合は，3ブロック目にあるglobのPATHに注意すれば，同階層に置かなくても動きます。[ $\hookleftarrow$ ](#解析データ)</span>
+[^1]: このREADMEファイルは，GitHub仕様に微修正しています。立教サーバの方を見るときは，VS Codeで開くことを推奨します。ただし，"Markdown All in One" および "Markdown Named CodeBlocks" の2つの拡張機能をインストールしてから使用してください。
+[^2]: ivana_re.ipynbを用いて解析する場合は，3ブロック目にあるglobのPATHに注意すれば，同階層に置かなくても動きます。
